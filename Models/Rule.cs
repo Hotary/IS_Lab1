@@ -8,16 +8,16 @@ namespace IS_Lab1.Models
 {
     public class Rule
     {
-        public Func<bool> Func { get; set; }
+        public Func<Washer, Placement, Familly, bool> Func { get; set; }
         public string Value = "";
 
         public Rule() 
         {
         }
 
-        public virtual bool Check() 
+        public virtual bool Check(Washer washer, Placement placement, Familly familly) 
         {
-            return Func();
+            return Func(washer, placement, familly);
         }
     }
 }

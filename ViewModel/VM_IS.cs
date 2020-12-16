@@ -10,9 +10,11 @@ namespace IS_Lab1.ViewModel
     {
         private Models.IntelligentSystem IS = new Models.IntelligentSystem();
         public Models.Question Question { get; private set; }
+        public Models.Database Database { get; private set; } = new Models.Database();
 
         public VM_IS()
         {
+            IS.Database = Database;
             var q11 = new Models.Question()
             {
                 Value = "Вам нужна функция защиты от протечек?",
@@ -136,7 +138,21 @@ namespace IS_Lab1.ViewModel
 
         public string GetWasher() 
         {
-            return IS.GetWasher();
+            var str = "";
+            var result = IS.GetOffers();
+
+            if (result is null)
+                return "404";
+            foreach (var o in result) 
+            {
+                str += o.Name + "; ";
+            }
+            return str;
+        }
+
+        public List<Models.Offer> GetOffers()
+        {
+            return IS.GetOffers();
         }
     }
 }

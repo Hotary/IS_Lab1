@@ -12,6 +12,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Your question?" x:Name="TBQuestion"/>
+        <TextBlock Text="В базе n стиралльных машин" x:Name="TBCntWasher" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        <Grid x:Name="LayerStart" Grid.RowSpan="2" IsEnabled="True" Visibility="Visible" Background="Azure">
+            <StackPanel>
+                <Button Content="Загрузить предыдущую конфигурацию" Margin="20,10" Click="Button_Click_Load"/>
+                <Button Content="Начать парсинг" Margin="20,10" Click="Button_Click_Parse"/>
+                <ProgressBar Height="20" Margin="20,10" Value="30"/>
+            </StackPanel>
+        </Grid>
         <Grid x:Name="LayerBool" Grid.Row="1" IsEnabled="False" Visibility="Hidden">
             <StackPanel>
                 <Button Content="Да" Margin="20, 10" Click="Button_Click_True"/>
@@ -22,7 +30,7 @@
             <StackPanel x:Name="SPAnswer">
             </StackPanel>
         </Grid>
-        <Grid x:Name="LayerInt" Grid.Row="1" IsEnabled="True" Visibility="Visible">
+        <Grid x:Name="LayerInt" Grid.Row="1" IsEnabled="false" Visibility="Hidden">
             <StackPanel>
                 <TextBox x:Name="TextNumber" Margin="20,10"/>
                 <Button Content="Далее" Margin="20, 10" Click="Button_Click_Int"/>
@@ -30,6 +38,44 @@
         </Grid>
         <Grid x:Name="LayerEnd" Grid.Row="1" IsEnabled="false" Visibility="Hidden">
             <TextBlock Text="This is end" x:Name="TextEnd"/>
+        </Grid>
+        <Grid x:Name="LayerOffers" Grid.Row="0" Grid.RowSpan="2" IsEnabled="false" Visibility="Hidden">
+            
+            <ScrollViewer>
+                <ItemsControl x:Name="itemResult">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1" BorderBrush="Aquamarine">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="100"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="80"/>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
+                                    <Image Width="90" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="3" Source="{Binding Path=Image}"/>
+                                    <TextBlock Text="{Binding Path=Name}" Grid.Column="1" VerticalAlignment="Center" FontSize="18" FontWeight="UltraBold" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding StringFormat=*{0}/5, Path=Rating}" Grid.Column="2" VerticalAlignment="Center" FontSize="18" FontWeight="UltraBold" HorizontalAlignment="Right" Margin="10"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Text="{Binding Path=Character}" Margin="0,0,10,0"/>
+                                    <TextBlock Text="{Binding StringFormat=.{0}р., Path=Price}" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" FontSize="18" FontWeight="UltraBold" HorizontalAlignment="Right" Margin="10"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+        <Grid x:Name="LayerDebug" Grid.Row="1" IsEnabled="false" Visibility="Hidden">
+            <TextBox x:Name="TextBoxDebug" />
         </Grid>
     </Grid>
 </Window>

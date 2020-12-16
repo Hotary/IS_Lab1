@@ -28,7 +28,14 @@ namespace IS_Lab1
         public MainWindow()
         {
             InitializeComponent();
-            SetQuestion(vm_is.Question);
+            //var db = new Models.Database();
+            //db.Parse();
+            //db.Save();
+            //db.GetCSRFToken();
+            //db.GetPage(1, 0, 25000, 6);
+            //db.GetCharacters("2b3d20cb-4645-11e1-ac39-001517c526f0", null);
+            //SetQuestion(vm_is.Question);
+
         }
 
         private bool IsTextAllowed(string text)
@@ -44,9 +51,15 @@ namespace IS_Lab1
                 SetQuestion(question);
                 return;
             }
-            TBQuestion.Text = "Результат...";
-            TextEnd.Text = "Ваша стриальная машина: " + vm_is.GetWasher();
+            //TBQuestion.Text = "Результат...";
+            //TextEnd.Text = "Ваша стриальная машина: " + vm_is.GetWasher();
+            //SetLayerEnd();
             SetLayerEnd();
+            itemResult.ItemsSource = vm_is.GetOffers();
+            LayerOffers.IsEnabled = true;
+            LayerOffers.Visibility = Visibility.Visible;
+            this.Width = 800;
+            this.Height = 600;
         }
 
         private void SetQuestion(Models.Question q) 
@@ -113,8 +126,6 @@ namespace IS_Lab1
             LayerAnswer.Visibility = Visibility.Hidden;
             LayerInt.IsEnabled = false;
             LayerInt.Visibility = Visibility.Hidden;
-            LayerEnd.IsEnabled = true;
-            LayerEnd.Visibility = Visibility.Visible;
         }
 
         private void Button_Click_True(object sender, RoutedEventArgs e)
@@ -146,7 +157,7 @@ namespace IS_Lab1
         private void Button_Click_Int(object sender, RoutedEventArgs e)
         {
             var str = TextNumber.Text;
-            if (!IsTextAllowed(str)) 
+            if (!IsTextAllowed(str) || str =="") 
             {
                 MessageBox.Show("Введено не число!");
                 return;
@@ -159,6 +170,27 @@ namespace IS_Lab1
             }
             question.SetValue();
             Next();
+        }
+
+        private void Button_Click_Parse(object sender, RoutedEventArgs e)
+        {
+            var db = vm_is.Database;
+            db.Parse();
+            db.Save();
+            LayerStart.IsEnabled = false;
+            LayerStart.Visibility = Visibility.Hidden;
+            TBCntWasher.Text = "В базе " + db.Offers.Count + " стиралльных машин";
+            SetQuestion(vm_is.Question);
+        }
+
+        private void Button_Click_Load(object sender, RoutedEventArgs e)
+        {
+            var db = vm_is.Database;
+            db.Load();
+            LayerStart.IsEnabled = false;
+            LayerStart.Visibility = Visibility.Hidden;
+            TBCntWasher.Text = "В базе " + db.Offers.Count + " стиралльных машин";
+            SetQuestion(vm_is.Question);
         }
     }
 }
